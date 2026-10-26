@@ -152,7 +152,14 @@ __all__ = [
     "coaching_context_protocol",
 ]
 
+# Keep-alive health check route for monitoring services
+from starlette.requests import Request
+from starlette.responses import PlainTextResponse
 
+@mcp.custom_route("/health", methods=["GET", "HEAD"])
+async def health_check(request: Request) -> PlainTextResponse:
+    return PlainTextResponse("OK", status_code=200)
+    
 # Run the server
 if __name__ == "__main__":
     # Validate ATHLETE_ID when server starts (not at import time to allow tests)
